@@ -4,6 +4,116 @@
     var mensagemErro = Model.ErrorMessage;
 }
 
+<style>
+    body {
+        background: linear-gradient(120deg, #f8fafc 0%, #e0c3fc 100%);
+        font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    }
+
+    #listaLivros {
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 4px 24px rgba(34,34,59,0.10);
+        margin-top: 40px;
+        padding: 40px 32px;
+    }
+
+    h1 {
+        color: #5f2c82;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-shadow: 1px 1px 0 #e0c3fc;
+    }
+
+    .btn-outline-light, .btn-link, .btn {
+        border-radius: 12px !important;
+        font-weight: 600;
+        transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-outline-light {
+        background: #a18cd1;
+        color: #fff;
+        border: none;
+    }
+
+        .btn-outline-light:hover {
+            background: #5f2c82;
+            color: #fff;
+        }
+
+    .btn-link {
+        color: #5f2c82 !important;
+        text-decoration: none;
+    }
+
+        .btn-link:hover {
+            color: #a18cd1 !important;
+            text-decoration: underline;
+            background: #f2e9e4;
+        }
+
+    .form-control {
+        border-radius: 20px;
+        border: none;
+        background: #f2e9e4;
+        color: #22223b;
+    }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 2px #a18cd1;
+            outline: none;
+        }
+
+    .table {
+        border-radius: 16px;
+        overflow: hidden;
+        background: #f8f9fa;
+        box-shadow: 0 2px 16px rgba(34,34,59,0.08);
+    }
+
+    th {
+        background: #5f2c82;
+        color: #fff !important;
+        font-weight: 600;
+        letter-spacing: 1px;
+        border: none;
+    }
+
+    td {
+        vertical-align: middle !important;
+        border: none;
+        color: #22223b;
+    }
+
+    .img-thumbnail {
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(34,34,59,0.10);
+        border: 2px solid #a18cd1;
+        background: #fff;
+    }
+
+    .pagination .page-link {
+        border-radius: 8px !important;
+        margin: 0 2px;
+        color: #5f2c82;
+        background: #f2e9e4;
+        border: none;
+        font-weight: 600;
+    }
+
+        .pagination .page-link.active, .pagination .active .page-link {
+            background: #a18cd1 !important;
+            color: #fff !important;
+            border: none;
+        }
+
+    .alert-danger {
+        border-radius: 12px;
+        font-size: 1.1rem;
+    }
+</style>
+
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-info text-center">@TempData["ErrorMessage"]</div>

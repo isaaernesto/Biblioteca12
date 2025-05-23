@@ -4,6 +4,85 @@
     ViewData["Title"] = "Index";
 }
 
+<style>
+    body {
+        background: linear-gradient(120deg, #f8fafc 0%, #e0c3fc 100%);
+        font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    }
+
+    #generosBox {
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 4px 24px rgba(34,34,59,0.10);
+        margin: 40px auto;
+        padding: 40px 32px;
+        max-width: 700px;
+    }
+
+    h1 {
+        color: #5f2c82;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-shadow: 1px 1px 0 #e0c3fc;
+        text-align: center;
+    }
+
+    .btn-custom {
+        border-radius: 12px;
+        font-weight: 600;
+        background: #a18cd1;
+        color: #fff !important;
+        border: none;
+        padding: 8px 24px;
+        transition: background 0.2s, color 0.2s;
+        text-decoration: none;
+        margin-bottom: 16px;
+        display: inline-block;
+    }
+
+        .btn-custom:hover {
+            background: #5f2c82;
+            color: #fff !important;
+        }
+
+    .table {
+        border-radius: 16px;
+        overflow: hidden;
+        background: #f8f9fa;
+        box-shadow: 0 2px 16px rgba(34,34,59,0.08);
+        margin-top: 24px;
+    }
+
+    th {
+        background: #5f2c82;
+        color: #fff !important;
+        font-weight: 600;
+        letter-spacing: 1px;
+        border: none;
+    }
+
+    td {
+        vertical-align: middle !important;
+        border: none;
+        color: #22223b;
+    }
+
+    .action-links a {
+        margin-right: 10px;
+        color: #5f2c82;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 8px;
+        padding: 4px 12px;
+        transition: background 0.2s, color 0.2s;
+    }
+
+        .action-links a:hover {
+            background: #e0c3fc;
+            color: #fff;
+        }
+</style>
+
 <h1>Index</h1>
 
 <p>
@@ -19,17 +98,18 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.GeneroId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GeneroId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GeneroId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.GeneroId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.GeneroId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.GeneroId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

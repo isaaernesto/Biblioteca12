@@ -1,13 +1,101 @@
 ﻿@model IEnumerable<Biblioteca.Models.Usuario>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "✧˖° Cadastro";
     var rolesPorUsuario = ViewBag.RolesPorUsuario as Dictionary<int, string>;
 }
 
-<div class="row">
-    <div class="col-1 col-md-2 col-lg-2"></div>
-    <div id="divMovimentos" class="col-10 col-md-8 col-lg-8 bg-black text-light m-lg-5 mb-3 p-5">
+<style>
+    body {
+        background: linear-gradient(120deg, #f8fafc 0%, #e0c3fc 100%);
+        font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    }
+
+    #divMovimentos {
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 4px 24px rgba(34,34,59,0.10);
+        margin-top: 40px;
+        padding: 40px 32px;
+    }
+
+    h1 {
+        color: #5f2c82;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-shadow: 1px 1px 0 #e0c3fc;
+    }
+
+    .form-control {
+        border-radius: 20px 0 0 20px;
+        border: none;
+        background: #f2e9e4;
+        color: #22223b;
+    }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 2px #a18cd1;
+            outline: none;
+        }
+
+    .btn-outline-light {
+        border-radius: 0 20px 20px 0;
+        background: #a18cd1;
+        color: #fff;
+        border: none;
+        transition: background 0.2s;
+    }
+
+        .btn-outline-light:hover {
+            background: #5f2c82;
+            color: #fff;
+        }
+
+    .table {
+        border-radius: 16px;
+        overflow: hidden;
+        background: #f8f9fa;
+        box-shadow: 0 2px 16px rgba(34,34,59,0.08);
+    }
+
+    th {
+        background: #5f2c82;
+        color: #fff !important;
+        font-weight: 600;
+        letter-spacing: 1px;
+        border: none;
+    }
+
+    td {
+        vertical-align: middle !important;
+        border: none;
+        color: #22223b;
+    }
+
+    .rounded-circle {
+        border: 2px solid #a18cd1;
+        box-shadow: 0 2px 8px rgba(34,34,59,0.10);
+    }
+
+    .btn-admin {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 6px 18px;
+        margin-top: 2px;
+    }
+
+    .btn-danger {
+        background: linear-gradient(90deg, #c9184a 60%, #ff758f 100%);
+        border: none;
+    }
+
+        .btn-danger:hover {
+            background: linear-gradient(90deg, #ff758f 60%, #c9184a 100%);
+        }
+</style>
+
+<div class="row justify-content-center">
+    <div id="divMovimentos" class="col-12 col-md-10 col-lg-8 bg-transparent text-dark m-3 p-5">
 
         <h1 class="text-center mb-5">Cadastro de Usuários</h1>
 
@@ -16,18 +104,75 @@
                 <div class="input-group">
                     <input type="text" name="searchTerm" class="form-control" placeholder="Localizar usuário..." />
                     <button type="submit" class="btn btn-outline-light">
-                        <i class="bi bi-search"></i> Localizar
+                        <i class="bi bi-search-heart"></i> Localizar
                     </button>
                 </div>
             </form>
         </div>
 
-        <table class="table table-dark table-striped mt-3">
+        <table class="table table-transparent table-striped mt-3">
             <thead>
                 <tr>
-                    <th>@Html.DisplayNameFor(model => model.NomeCompleto)</th>
-                    <th>@Html.DisplayNameFor(model => model.Celular)</th>
                     <th>@Html.DisplayNameFor(model => model.UrlFoto)</th>
+                    <th>@Html.DisplayNameFor(model => model.NomeCompleto)</th>
+                    <table class="table table-transparent table-striped mt-3">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>@Html.DisplayNameFor(model => model.NomeCompleto)</th>
+                                <th>@Html.DisplayNameFor(model => model.Celular)</th>
+                                <th>Role</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.UrlFoto))
+                                        {
+                                            <img src="@item.UrlFoto"
+                                                 alt="Foto de @item.NomeCompleto"
+                                                 class="rounded-circle"
+                                                 style="width: 90px; height: 90px; object-fit: cover;" />
+                                        }
+                                        else
+                                        {
+                                            <span>Sem foto</span>
+                                        }
+                                    </td>
+                                    <td>@Html.DisplayFor(modelItem => item.NomeCompleto)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Celular)</td>
+                                    <td>
+                                        @(rolesPorUsuario != null && rolesPorUsuario.ContainsKey(item.UsuarioId)
+                                            ? rolesPorUsuario[item.UsuarioId]
+                                            : "Nenhuma")
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.UsuarioId" class="text-dark text-decoration-none me-2"><i class="bi bi-pencil-square"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@item.UsuarioId" class="text-dark text-decoration-none me-2"><i class="bi bi-trash3"></i></a>
+                                    </td>
+                                    <td>
+                                        @if (rolesPorUsuario != null && rolesPorUsuario.ContainsKey(item.UsuarioId) && rolesPorUsuario[item.UsuarioId] == "Admin")
+                                        {
+                                            <form asp-action="RemoverAdmin" asp-route-id="@item.UsuarioId" method="post" style="display:inline">
+                                                <button type="submit" class="btn btn-danger text-decoration-none btn-admin">Remover Admin</button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form asp-action="PromoverParaAdmin" asp-route-id="@item.UsuarioId" method="post" style="display:inline">
+                                                <button type="submit" class="btn btn-outline-light text-decoration-none btn-admin">Tornar Admin</button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <th>@Html.DisplayNameFor(model => model.Celular)</th>
                     <th>Role</th>
                     <th></th>
                     <th></th>
@@ -37,20 +182,28 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.UrlFoto))
+                            {
+                                <img src="@Url.Action("BuscarFoto", "Usuarios", new { id = item.UsuarioId })"
+                                     class="rounded-circle"
+                                     style="width: 90px; height: 90px; object-fit: cover;" />
+
+                            }
+                        </td>
                         <td>@Html.DisplayFor(modelItem => item.NomeCompleto)</td>
                         <td>@Html.DisplayFor(modelItem => item.Celular)</td>
-                        <td>@Html.DisplayFor(modelItem => item.UrlFoto)</td>
                         <td>
                             @(rolesPorUsuario != null && rolesPorUsuario.ContainsKey(item.UsuarioId)
-                                                    ? rolesPorUsuario[item.UsuarioId]
-                                                    : "Nenhuma")
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.UsuarioId" class="text-light text-decoration-none me-2"><i class="bi bi-pencil-square"></i></a>
-                        <a asp-action="Delete" asp-route-id="@item.UsuarioId" class="text-light text-decoration-none me-2"><i class="bi bi-trash3"></i></a>
-                    </td>
-                    <td>
-                        @if (rolesPorUsuario != null && rolesPorUsuario.ContainsKey(item.UsuarioId) && rolesPorUsuario[item.UsuarioId] == "Admin")
+                                ? rolesPorUsuario[item.UsuarioId]
+                                : "Nenhuma")
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.UsuarioId" class="text-dark text-decoration-none me-2"><i class="bi bi-pencil-square"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.UsuarioId" class="text-dark text-decoration-none me-2"><i class="bi bi-trash3"></i></a>
+                        </td>
+                        <td>
+                            @if (rolesPorUsuario != null && rolesPorUsuario.ContainsKey(item.UsuarioId) && rolesPorUsuario[item.UsuarioId] == "Admin")
                             {
                                 <form asp-action="RemoverAdmin" asp-route-id="@item.UsuarioId" method="post" style="display:inline">
                                     <button type="submit" class="btn btn-danger text-decoration-none btn-admin">Remover Admin</button>
@@ -68,5 +221,4 @@
             </tbody>
         </table>
     </div>
-    <div class="col-1 col-md-2 col-lg-2"></div>
 </div>

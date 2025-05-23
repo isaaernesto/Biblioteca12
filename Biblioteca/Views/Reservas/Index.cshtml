@@ -4,6 +4,96 @@
     string searchTerm = ViewBag.SearchTerm as string ?? "";
 }
 
+<style>
+    body {
+        background: linear-gradient(120deg, #f8fafc 0%, #e0c3fc 100%);
+        font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    }
+
+    #divMinhasRetiradas {
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 4px 24px rgba(34,34,59,0.10);
+        margin-top: 40px;
+        padding: 40px 32px;
+    }
+
+    h1 {
+        color: #5f2c82;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-shadow: 1px 1px 0 #e0c3fc;
+    }
+
+    .form-control {
+        border-radius: 20px 0 0 20px;
+        border: none;
+        background: #f2e9e4;
+        color: #22223b;
+    }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 2px #a18cd1;
+            outline: none;
+        }
+
+    .btn-outline-light {
+        border-radius: 0 20px 20px 0;
+        background: #a18cd1;
+        color: #fff;
+        border: none;
+        transition: background 0.2s;
+    }
+
+        .btn-outline-light:hover {
+            background: #5f2c82;
+            color: #fff;
+        }
+
+    .table {
+        border-radius: 16px;
+        overflow: hidden;
+        background: #f8f9fa;
+        box-shadow: 0 2px 16px rgba(34,34,59,0.08);
+    }
+
+    th {
+        background: #5f2c82;
+        color: #fff !important;
+        font-weight: 600;
+        letter-spacing: 1px;
+        border: none;
+    }
+
+    td {
+        vertical-align: middle !important;
+        border: none;
+        color: #22223b;
+    }
+
+    .btn-link.text-danger {
+        color: #c9184a !important;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: background 0.2s, color 0.2s;
+        padding: 6px 18px;
+    }
+
+        .btn-link.text-danger:hover {
+            background: #ffe0e9;
+            color: #a1002b !important;
+            text-decoration: underline;
+        }
+
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f2e9e4;
+    }
+
+    .table-striped > tbody > tr:nth-of-type(even) {
+        background-color: #fff;
+    }
+</style>
+
 <div class="row">
     <div class="col-1 col-md-2 col-lg-2"></div>
     <div id="divMinhasRetiradas" class="col-10 col-md-8 col-lg-8 bg-black text-light m-lg-5 mb-3 p-5">

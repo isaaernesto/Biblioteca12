@@ -4,6 +4,119 @@
     var tabAtiva = ViewBag.TabAtiva as string ?? "retirada";
 }
 
+<style>
+    body {
+        background: linear-gradient(120deg, #f8fafc 0%, #e0c3fc 100%);
+        font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    }
+
+    #divMovimentos {
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 4px 24px rgba(34,34,59,0.10);
+        margin-top: 40px;
+        padding: 40px 32px;
+    }
+
+    h1 {
+        color: #5f2c82;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-shadow: 1px 1px 0 #e0c3fc;
+    }
+
+    .nav-tabs {
+        border: none;
+        background: #f2e9e4;
+        border-radius: 16px 16px 0 0;
+        overflow: hidden;
+    }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #5f2c82;
+            background: transparent;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: background 0.2s, color 0.2s;
+            border-radius: 0;
+            margin-bottom: -1px;
+        }
+
+            .nav-tabs .nav-link.active {
+                background: #a18cd1;
+                color: #fff !important;
+                border: none;
+                border-bottom: 4px solid #5f2c82;
+            }
+
+    .form-control {
+        border-radius: 20px 0 0 20px;
+        border: none;
+        background: #f2e9e4;
+        color: #22223b;
+    }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 2px #a18cd1;
+            outline: none;
+        }
+
+    .btn-outline-light {
+        border-radius: 0 20px 20px 0;
+        background: #a18cd1;
+        color: #fff;
+        border: none;
+        transition: background 0.2s;
+    }
+
+        .btn-outline-light:hover {
+            background: #5f2c82;
+            color: #fff;
+        }
+
+    .table {
+        border-radius: 16px;
+        overflow: hidden;
+        background: #f8f9fa;
+        box-shadow: 0 2px 16px rgba(34,34,59,0.08);
+    }
+
+    th {
+        background: #5f2c82;
+        color: #fff !important;
+        font-weight: 600;
+        letter-spacing: 1px;
+        border: none;
+    }
+
+    td {
+        vertical-align: middle !important;
+        border: none;
+        color: #22223b;
+    }
+
+    .btn-light {
+        border-radius: 10px;
+        font-weight: 600;
+        background: #a18cd1;
+        color: #fff !important;
+        border: none;
+        transition: background 0.2s, color 0.2s;
+        margin-right: 6px;
+    }
+
+        .btn-light:hover {
+            background: #5f2c82;
+            color: #fff !important;
+        }
+
+    .alert-success {
+        border-radius: 12px;
+        font-size: 1.1rem;
+    }
+</style>
+
 <div class="row">
     <div class="col-1 col-md-2 col-lg-2">
     </div>

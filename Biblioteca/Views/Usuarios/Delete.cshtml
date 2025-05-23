@@ -1,57 +1,125 @@
 ﻿@model Biblioteca.Models.Usuario
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Excluir Usuário";
 }
 
-<h1>Delete</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #232526 0%, #414345 100%);
+        min-height: 100vh;
+    }
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Usuario</h4>
-    <hr />
+    .delete-container {
+        background: #181818;
+        color: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        max-width: 500px;
+        margin: 60px auto;
+        padding: 40px 32px 32px 32px;
+        text-align: center;
+    }
+
+        .delete-container h1 {
+            color: #ff5252;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+
+        .delete-container h3 {
+            color: #ffb300;
+            margin-bottom: 28px;
+        }
+
+        .delete-container dl {
+            text-align: left;
+            margin-bottom: 32px;
+        }
+
+        .delete-container dt {
+            color: #bdbdbd;
+        }
+
+        .delete-container dd {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+    .delete-actions {
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        margin-top: 18px;
+    }
+
+    .btn-danger {
+        background: #ff5252;
+        border: none;
+        color: #fff;
+        font-weight: bold;
+        padding: 10px 28px;
+        border-radius: 6px;
+        transition: background 0.2s;
+    }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+    .btn-back {
+        background: #333;
+        color: #fff;
+        border: none;
+        padding: 10px 28px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background 0.2s;
+    }
+
+        .btn-back:hover {
+            background: #616161;
+            color: #fff;
+        }
+
+    .user-photo {
+        display: block;
+        margin: 0 auto 18px auto;
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #ffb300;
+        background: #222;
+    }
+</style>
+
+<div class="delete-container">
+    <h1>Excluir Usuário</h1>
+    <h3>Tem certeza que deseja excluir este usuário?</h3>
+
+    @if (!string.IsNullOrEmpty(Model.UrlFoto))
+    {
+        <img src="@Model.UrlFoto" alt="Foto de @Model.NomeCompleto" class="user-photo" />
+    }
+
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NomeCompleto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NomeCompleto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CPF)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CPF)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Celular)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Celular)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataNascimento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataNascimento)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UrlFoto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UrlFoto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AppUserId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AppUserId)
-        </dd>
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.NomeCompleto)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(model => model.NomeCompleto)</dd>
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CPF)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(model => model.CPF)</dd>
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Celular)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(model => model.Celular)</dd>
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DataNascimento)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(model => model.DataNascimento)</dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="UsuarioId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <div class="delete-actions">
+            <input type="submit" value="Excluir" class="btn btn-danger" />
+            <a asp-action="Index" class="btn-back">Cancelar</a>
+        </div>
     </form>
 </div>

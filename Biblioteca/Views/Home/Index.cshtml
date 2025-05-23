@@ -3,8 +3,94 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    }
+
+    #divMovimentos {
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 4px 24px rgba(34,34,59,0.10);
+        margin-top: 40px;
+    }
+
+    h1 {
+        color: #22223b;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .form-control {
+        border-radius: 20px 0 0 20px;
+        border: none;
+        background: #f2e9e4;
+        color: #22223b;
+    }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 2px #9a8c98;
+            outline: none;
+        }
+
+    .btn-outline-light {
+        border-radius: 0 20px 20px 0;
+        background: #9a8c98;
+        color: #fff;
+        border: none;
+        transition: background 0.2s;
+    }
+
+        .btn-outline-light:hover {
+            background: #4a4e69;
+            color: #fff;
+        }
+
+    .table {
+        border-radius: 16px;
+        overflow: hidden;
+        background: #f8f9fa;
+        box-shadow: 0 2px 16px rgba(34,34,59,0.08);
+    }
+
+    th {
+        background: #22223b;
+        color: #fff !important;
+        font-weight: 600;
+        letter-spacing: 1px;
+        border: none;
+    }
+
+    td {
+        vertical-align: middle !important;
+        border: none;
+    }
+
+    .rounded-circle {
+        border: 2px solid #9a8c98;
+        box-shadow: 0 2px 8px rgba(34,34,59,0.10);
+    }
+
+    .btn-admin {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 6px 18px;
+        margin-top: 2px;
+    }
+
+    .btn-danger {
+        background: linear-gradient(90deg, #c9184a 60%, #ff758f 100%);
+        border: none;
+    }
+
+        .btn-danger:hover {
+            background: linear-gradient(90deg, #ff758f 60%, #c9184a 100%);
+        }
+</style>
+
 <div id="divPesquisa" class="bg-black pt-4 pb-4 text-light">
-    <p class="fs-4 text-center">Encontre seu livro, pelo nome, autor ou editora.</p>
+    <p class="fs-4 text-center">Procure pelo seu livro:</p>
     <form asp-controller="Livros" asp-action="Search" method="get" class="input-group form-busca">
         <input type="text" name="searchTerm" class="form-control fs-4" placeholder="Pesquisar na BiblioTech" aria-describedby="btnPesquisar" />
         <button class="btn btn-outline-light fs-4" type="submit" id="btnPesquisar">
@@ -147,5 +233,5 @@
 -->
 
 <div id="divFooter" class="bg-dark text-center p-3">
-    <p class="lead text-light pt-3">Desenvolvido com 🤍 por Prof. Cristiano de Paula</p>
+    <p class="lead text-light pt-3">Desenvolvido com 🤍 por Lucas, Raissa, Luís e Isabelly.</p>
 </div>
