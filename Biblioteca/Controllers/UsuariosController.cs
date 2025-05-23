@@ -24,6 +24,34 @@ namespace Biblioteca.Controllers
             _userManager = userManager;
         }
 
+        public IActionResult BuscarFoto(int id)
+        {
+            // Busca o usuário pelo ID
+            var usuario = _context.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
+
+            if (usuario == null || string.IsNullOrEmpty(usuario.UrlFoto))
+            {
+                // Retorna uma imagem padrão caso o usuário não tenha foto
+                var caminhoImagemPadrao = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "sem-foto.jpg");
+                return PhysicalFile(caminhoImagemPadrao, "image/jpeg");
+            }
+
+            // Caminho completo da foto do usuário
+            var caminhoFoto = Path.Combine(Directory.GetCurrentDirectory(), usuario.UrlFoto);
+
+            if (!System.IO.File.Exists(caminhoFoto))
+            {
+                // Retorna a imagem padrão caso o arquivo não exista
+                var caminhoImagemPadrao = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "sem-foto.jpg");
+                return PhysicalFile(caminhoImagemPadrao, "image/jpeg");
+            }
+
+            // Retorna a foto do usuário
+            return PhysicalFile(caminhoFoto, "image/jpeg");
+        }
+
+
+
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
@@ -123,42 +151,37 @@ namespace Biblioteca.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UsuarioId,NomeCompleto,CPF,Celular,DataNascimento,UrlFoto,AppUserId")] Usuario usuario)
+        public async Task<IActionResult> Create(Usuario usuario, IFormFile UrlFoto)
         {
             if (ModelState.IsValid)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (userId == null)
-                    return NotFound();
-
-                var existingUser = await _context.Usuarios
-                    .FirstOrDefaultAsync(u => u.AppUserId == Guid.Parse(userId));
-                if (existingUser != null)
+                // Verifica se o arquivo foi enviado
+                if (UrlFoto != null && UrlFoto.Length > 0)
                 {
-                    ModelState.AddModelError("AppUserId", "E-mail já cadastrado.");
-                    return View(usuario);
+                    // Define o caminho para salvar a imagem
+                    var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Photos");
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath); // Cria a pasta se não existir
+                    }
+
+                    // Define o nome único para o arquivo
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(UrlFoto.FileName);
+                    var filePath = Path.Combine(folderPath, fileName);
+
+                    // Salva o arquivo no servidor
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await UrlFoto.CopyToAsync(stream);
+                    }
+
+                    // Salva o caminho relativo no banco de dados
+                    usuario.UrlFoto = Path.Combine("Resources", "Photos", fileName).Replace("\\", "/");
                 }
 
-                usuario.AppUserId = Guid.Parse(userId);
-
-                var identityUser = await _context.Users.FindAsync(userId);
-
-                if (identityUser != null)
-                {
-                    usuario.IdentityUser = identityUser;
-                }
-                else
-                {
-                    ModelState.AddModelError("AppUserId", "Usuário não encontrado.");
-                    return View(usuario);
-                }
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
-
-                // Adiciona o usuário à role "Aluno"
-                await _userManager.AddToRoleAsync(identityUser, "Aluno");
-
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(nameof(Index));
             }
             return View(usuario);
         }
@@ -291,5 +314,7 @@ namespace Biblioteca.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
     }
 }

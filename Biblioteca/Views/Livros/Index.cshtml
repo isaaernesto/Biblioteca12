@@ -4,6 +4,12 @@
     var mensagemErro = Model.ErrorMessage;
 }
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-info text-center">@TempData["ErrorMessage"]</div>
+}
+
+
 <div id="listaLivros" class="container bg-black text-light p-5">
 
     @if (!string.IsNullOrEmpty(mensagemErro))
