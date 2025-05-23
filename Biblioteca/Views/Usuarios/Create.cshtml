@@ -7,7 +7,7 @@
 <div id="divUsuario" class="container bg-black text-light mt-5 fs-5">
     <h4 class="text-center fs-3">Complete Seu Cadastro</h4>
     <hr />
-    <form asp-action="Create">
+    <form asp-action="Create" enctype="multipart/form-data" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row gap-3 mb-3 mt-2">
             <div class="col">
@@ -45,7 +45,7 @@
             <div class="col">
                 <div class="form-group">
                     <label asp-for="UrlFoto" class="control-label"></label>
-                    <input type="file" asp-for="UrlFoto" class="form-control" accept="image/*" />
+                    <input type="file" asp-for="UrlFoto" name="UrlFoto" class="form-control" accept="image/*" />
                     <span asp-validation-for="UrlFoto" class="text-danger"></span>
                 </div>
             </div>
@@ -73,60 +73,60 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-    <script>
-        let allowLeave = false;
+                            <script>
+                                let allowLeave = false;
 
-        // Libera saída apenas se clicar no botão "Salvar"
-        document.getElementById("btnSalvar")?.addEventListener("click", function () {
-            allowLeave = true;
-        });
+                                // Libera saída apenas se clicar no botão "Salvar"
+                                document.getElementById("btnSalvar")?.addEventListener("click", function () {
+                                    allowLeave = true;
+                                });
 
-        // Intercepta qualquer tentativa de saída (reload, fechar aba, navegar etc.)
-        window.addEventListener("beforeunload", function (e) {
-            if (!allowLeave) {
-                e.preventDefault();
-                e.returnValue = '';
-            }
-        });
+                                // Intercepta qualquer tentativa de saída (reload, fechar aba, navegar etc.)
+                                window.addEventListener("beforeunload", function (e) {
+                                    if (!allowLeave) {
+                                        e.preventDefault();
+                                        e.returnValue = '';
+                                    }
+                                });
 
-        // Intercepta cliques em links e botões que mudam a página
-        document.addEventListener("click", function (e) {
-            if (!allowLeave) {
-                let target = e.target;
+                                // Intercepta cliques em links e botões que mudam a página
+                                document.addEventListener("click", function (e) {
+                                    if (!allowLeave) {
+                                        let target = e.target;
 
-                // Sobe até o <a> ou <button> se for filho
-                while (target && !target.href && target.tagName !== 'BUTTON') {
-                    target = target.parentElement;
-                }
+                                        // Sobe até o <a> ou <button> se for filho
+                                        while (target && !target.href && target.tagName !== 'BUTTON') {
+                                            target = target.parentElement;
+                                        }
 
-                if (target && (target.tagName === 'A' || target.tagName === 'BUTTON')) {
-                    if (!target.closest('#btnSalvar')) {
-                        e.preventDefault();
-                        alert("Por favor, Complete o Cadastro antes de sair desta página.");
-                    }
-                }
-            }
-        });
+                                        if (target && (target.tagName === 'A' || target.tagName === 'BUTTON')) {
+                                            if (!target.closest('#btnSalvar')) {
+                                                e.preventDefault();
+                                                alert("Por favor, Complete o Cadastro antes de sair desta página.");
+                                            }
+                                        }
+                                    }
+                                });
 
-        // Intercepta mudança de rota no botão 'Voltar' do navegador
-        window.addEventListener("popstate", function (e) {
-            if (!allowLeave) {
-                history.pushState(null, '', location.href); // volta a URL para onde estava
-                alert("Por favor, Complete o Cadastro antes de sair desta página.");
-            }
-        });
+                                // Intercepta mudança de rota no botão 'Voltar' do navegador
+                                window.addEventListener("popstate", function (e) {
+                                    if (!allowLeave) {
+                                        history.pushState(null, '', location.href); // volta a URL para onde estava
+                                        alert("Por favor, Complete o Cadastro antes de sair desta página.");
+                                    }
+                                });
 
-        // Hack: bloqueia o botão voltar mantendo o histórico sempre com a mesma entrada
-        window.onload = function () {
-            history.pushState(null, '', location.href);
-        };
-    </script>
-    <script>
-        $(document).ready(function () {
-            // Aplica a máscara ao campo CPF
-            $('input[name="CPF"]').mask('000.000.000-00');
-            // Aplica a máscara ao campo Celular
-            $('input[name="Celular"]').mask('(00) 00000-0000');
-        });
-    </script>
+                                // Hack: bloqueia o botão voltar mantendo o histórico sempre com a mesma entrada
+                                window.onload = function () {
+                                    history.pushState(null, '', location.href);
+                                };
+                            </script>
+                            <script>
+                                $(document).ready(function () {
+                                    // Aplica a máscara ao campo CPF
+                                    $('input[name="CPF"]').mask('000.000.000-00');
+                                    // Aplica a máscara ao campo Celular
+                                    $('input[name="Celular"]').mask('(00) 00000-0000');
+                                });
+                            </script>
 }

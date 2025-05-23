@@ -99,44 +99,14 @@
     </form>
 </div>
 
-<div id="divLancamentos">
-    <div class="parallax pt-4 d-flex justify-content-evenly flex-wrap">
+<div id="divLancamentos" class="container mt-4">
+    <h2 class="text-center text-dark">Lançamentos</h2>
+    <div class="row d-flex justify-content-center">
         @foreach (var livro in Model)
         {
-            <div class="card text-center mt-2 mb-3" style="width: 16rem;">
-                <div class="w-100 text-center mt-3">
-                    <img src="@(string.IsNullOrEmpty(livro.UrlCapa) ? Url.Content("~/img/sem-imagem.jpg") : Url.Action("BuscarCapa", "Livros", new { id = livro.LivroId }))"
-                         class="card-img-top img-fluid"
-                         alt="Capa do Livro" style="height: 200px; object-fit: cover;" />
-                </div>
-                <div class="card-body">
-                    <h4 class="card-title">@livro.Titulo</h4>
-                    <h5 class="lead">@livro.Autor</h5>
-                    <p class="mb-1"><span class="badge bg-secondary">@livro.Genero?.Nome</span></p>
-                    <p class="text-center">
-                        <form asp-controller="Reservas" asp-action="Create" method="post" class="d-inline">
-                            <input type="hidden" name="LivroId" value="@livro.LivroId" />
-                            <button type="submit" class="btn btn-dark p-3 m-0">
-                                Reservar
-                            </button>
-                        </form>
-                    </p>
-                </div>
-            </div>
-        }
-    </div>
-</div>
-
-
-
-<div class="m-0 p-0">
-    <h2 class="text-center text-light bg-dark m-0 pt-4">TOP 5 - Livros Mais Reservados</h2>
-    <div id="divTop5" class="bg-dark m-0 pt-4 d-flex justify-content-evenly flex-wrap">
-        @if (ViewBag.LivrosMaisReservados != null)
-        {
-            foreach (var livro in (IEnumerable<Biblioteca.Models.Livro>)ViewBag.LivrosMaisReservados)
-            {
-                <div class="card text-center mt-2 mb-3" style="width: 16rem;">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="card text-center h-100" style="cursor: pointer;"
+                     onclick="abrirModal('@Html.Raw(livro.Titulo)', '@Html.Raw(livro.Autor)', '@Html.Raw(livro.Descricao)', '@Html.Raw(livro.Editora)', '@livro.DataPublicacao.ToString("dd/MM/yyyy")', '@livro.NumeroPaginas', '@Html.Raw(livro.ISBN10)', '@Html.Raw(livro.ISBN13)')">
                     <div class="w-100 text-center mt-3">
                         <img src="@(string.IsNullOrEmpty(livro.UrlCapa) ? Url.Content("~/img/sem-imagem.jpg") : Url.Action("BuscarCapa", "Livros", new { id = livro.LivroId }))"
                              class="card-img-top img-fluid"
@@ -146,16 +116,48 @@
                         <h4 class="card-title">@livro.Titulo</h4>
                         <h5 class="lead">@livro.Autor</h5>
                         <p class="mb-1"><span class="badge bg-secondary">@livro.Genero?.Nome</span></p>
-                        <p class="text-center">
+                        <form asp-controller="Reservas" asp-action="Create" method="post" class="d-inline">
+                            <input type="hidden" name="LivroId" value="@livro.LivroId" />
+                            <button type="submit" class="btn btn-dark p-2 m-0">
+                                Reservar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center text-light bg-dark p-3">TOP 5 - Livros Mais Reservados</h2>
+    <div id="divTop5" class="row d-flex justify-content-center">
+        @if (ViewBag.LivrosMaisReservados != null)
+        {
+            foreach (var livro in (IEnumerable<Biblioteca.Models.Livro>)ViewBag.LivrosMaisReservados)
+            {
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card text-center h-100" style="cursor: pointer;"
+                         onclick="abrirModal('@Html.Raw(livro.Titulo)', '@Html.Raw(livro.Autor)', '@Html.Raw(livro.Descricao)', '@Html.Raw(livro.Editora)', '@livro.DataPublicacao.ToString("dd/MM/yyyy")', '@livro.NumeroPaginas', '@Html.Raw(livro.ISBN10)', '@Html.Raw(livro.ISBN13)')">
+                        <div class="w-100 text-center mt-3">
+                            <img src="@(string.IsNullOrEmpty(livro.UrlCapa) ? Url.Content("~/img/sem-imagem.jpg") : Url.Action("BuscarCapa", "Livros", new { id = livro.LivroId }))"
+                                 class="card-img-top img-fluid"
+                                 alt="Capa do Livro" style="height: 200px; object-fit: cover;" />
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">@livro.Titulo</h4>
+                            <h5 class="lead">@livro.Autor</h5>
+                            <p class="mb-1"><span class="badge bg-secondary">@livro.Genero?.Nome</span></p>
                             <form asp-controller="Reservas" asp-action="Create" method="post" class="d-inline">
                                 <input type="hidden" name="LivroId" value="@livro.LivroId" />
-                                <button type="submit" class="btn btn-dark p-3 m-0">
+                                <button type="submit" class="btn btn-dark p-2 m-0">
                                     Reservar
                                 </button>
                             </form>
-                        </p>
+                        </div>
                     </div>
                 </div>
+
             }
         }
         else
@@ -164,6 +166,54 @@
         }
     </div>
 </div>
+
+<div id="divFooter" class="bg-dark text-center p-3 mt-5">
+    <p class="lead text-light pt-3">Desenvolvido com 🤍 por Prof. Cristiano de Paula</p>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="livroModal" tabindex="-1" aria-labelledby="livroModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="livroModalLabel">Detalhes do Livro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h4 id="modalTitulo"></h4>
+                <h5 id="modalAutor" class="text-muted"></h5>
+                <p id="modalDescricao"></p>
+                <p><strong>Editora:</strong> <span id="modalEditora"></span></p>
+                <p><strong>Data de Publicação:</strong> <span id="modalDataPublicacao"></span></p>
+                <p><strong>Número de Páginas:</strong> <span id="modalNumeroPaginas"></span></p>
+                <p><strong>ISBN-10:</strong> <span id="modalISBN10"></span></p>
+                <p><strong>ISBN-13:</strong> <span id="modalISBN13"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function abrirModal(titulo, autor, descricao, editora, dataPublicacao, numeroPaginas, isbn10, isbn13) {
+        // Preenche os dados no modal
+        document.getElementById('modalTitulo').innerText = titulo;
+        document.getElementById('modalAutor').innerText = autor;
+        document.getElementById('modalDescricao').innerText = descricao;
+        document.getElementById('modalEditora').innerText = editora;
+        document.getElementById('modalDataPublicacao').innerText = dataPublicacao;
+        document.getElementById('modalNumeroPaginas').innerText = numeroPaginas;
+        document.getElementById('modalISBN10').innerText = isbn10;
+        document.getElementById('modalISBN13').innerText = isbn13;
+
+        // Exibe o modal
+        var modal = new bootstrap.Modal(document.getElementById('livroModal'));
+        modal.show();
+    }
+</script>
+
 
 <!--
 <div id="divAvalicao">
