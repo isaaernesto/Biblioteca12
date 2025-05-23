@@ -34,15 +34,18 @@
                                 Reservar
                             </button>
                         </form>
+                        <a asp-controller="Avaliacoes" asp-action="Create" asp-route-id="@livro.LivroId" class="d-inline">
+                            <button type="submit" class="btn btn-dark p-3 m-0">
+                                Avaliar
+                            </button>
+                        </a>
                     </p>
                 </div>
             </div>
         }
     </div>
 </div>
-
-
-
+}
 <div class="m-0 p-0">
     <h2 class="text-center text-light bg-dark m-0 pt-4">TOP 5 - Livros Mais Reservados</h2>
     <div id="divTop5" class="bg-dark m-0 pt-4 d-flex justify-content-evenly flex-wrap">
