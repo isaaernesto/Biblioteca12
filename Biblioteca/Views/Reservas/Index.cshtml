@@ -26,6 +26,7 @@
                     <th>Data Reserva</th>
                     <th>Livro</th>
                     <th>Status</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +39,18 @@
                             <td>@item.Livro?.Titulo</td>
                             <td>
                                 @(item.Cancelada ? "Cancelada" : (item.LivroRetirado ? "Retirada" : "Pendente"))
+                            </td>
+                            <td>
+                                @if (item != null && !item.LivroRetirado && !item.Cancelada)
+                                {
+                                    <form asp-controller="Reservas" asp-action="CancelarReserva" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@item.ReservaId" />
+                                        <button type="submit" class="btn btn-link text-danger text-decoration-none p-0 m-0 align-baseline"
+                                                onclick="return confirm('Tem certeza que deseja cancelar esta reserva?');">
+                                            <i class="bi bi-x-square"></i> Cancelar Reserva
+                                        </button>
+                                    </form>
+                                }
                             </td>
                         </tr>
                     }

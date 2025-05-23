@@ -334,5 +334,45 @@ namespace Biblioteca.Controllers
             // Redireciona para a action Retiradas do MovimentacoesController
             return RedirectToAction("Retiradas", "Movimentacoes");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CancelarReserva(int id)
+        {
+            var reserva = await _context.Reservas.FindAsync(id);
+            if (reserva == null)
+            {
+                TempData["ErrorMessage"] = "Reserva não encontrada.";
+                return RedirectToAction("Index", "Livros");
+            }
+
+            if (reserva.LivroRetirado)
+            {
+                TempData["ErrorMessage"] = "Não é possível cancelar uma reserva já retirada.";
+                return RedirectToAction("Index", "Livros");
+            }
+
+            if (reserva.Cancelada)
+            {
+                TempData["ErrorMessage"] = "Reserva já está cancelada.";
+                return RedirectToAction("Index", "Livros");
+            }
+
+            reserva.Cancelada = true;
+
+            // Devolve a quantidade do livro
+            var livro = await _context.Livros.FindAsync(reserva.LivroId);
+            if (livro != null)
+            {
+                livro.Quantidade += 1;
+                _context.Livros.Update(livro);
+            }
+
+            _context.Reservas.Update(reserva);
+            await _context.SaveChangesAsync();
+
+            TempData["ErrorMessage"] = "Reserva cancelada com sucesso.";
+            return RedirectToAction("Index", "Reservas");
+        }
     }
 }
